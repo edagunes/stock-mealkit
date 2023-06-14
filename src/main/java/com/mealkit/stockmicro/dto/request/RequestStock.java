@@ -2,8 +2,7 @@ package com.mealkit.stockmicro.dto.request;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestStock {
