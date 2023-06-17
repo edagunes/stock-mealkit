@@ -50,6 +50,7 @@ public class StockService {
 
     public void createStock(RequestStock requestStock) {
         Stock stock = StockMapper.INSTANCE.convertToStock(requestStock);
+        stock.setCount(requestStock.getCount());
         stockRepository.save(stock);
     }
 

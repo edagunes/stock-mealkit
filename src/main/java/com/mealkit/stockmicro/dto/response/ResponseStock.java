@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseStock {
-    private Long productId;
+    private Long id;
     private Integer count;
 }

@@ -6,6 +6,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestStock {
-    private Long ingredientId;
     private Integer count;
 }
