@@ -5,6 +5,7 @@ import lombok.*;
 
 @Entity
 @Table
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,22 +14,10 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
+    private String ingredientName;
+    @Column
     private Integer count;
+    @Column
+    private String unitOfMeasure;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
 }
