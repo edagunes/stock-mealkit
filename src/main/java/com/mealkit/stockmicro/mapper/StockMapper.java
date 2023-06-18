@@ -4,6 +4,7 @@ import com.mealkit.stockmicro.dao.entity.Stock;
 import com.mealkit.stockmicro.dto.request.RequestStock;
 import com.mealkit.stockmicro.dto.response.ResponseStock;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
