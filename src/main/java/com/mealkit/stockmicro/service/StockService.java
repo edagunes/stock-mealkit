@@ -12,10 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class StockService {
@@ -53,32 +50,49 @@ public class StockService {
         stockRepository.save(stock);
     }
 
-    public void updateStock(RequestUpdateStock requestUpdateStock) {
-        getStockById(requestUpdateStock.getId()); //For validation
+    public void updateStock(RequestUpdateStock requestUpdateStock) throws Exception {
+        final ResponseStock responseStock = getStockById(requestUpdateStock.getId());
+        if (Objects.isNull(responseStock)){
+            throw new Exception("No Stock by Given Id");
+        }
         Stock stock = new Stock();
         stock.setId(requestUpdateStock.getId());
         stock.setCount(requestUpdateStock.getCount());
 
-        //Stock.builder()
-        //                        .id(requestUpdateStock.getId())
-        //                        .ingredientId(requestUpdateStock.getIngredientId())
-        //                        .count(requestUpdateStock.getCount())
-        //                        .build());
         stockRepository.save(stock);
         LOGGER.info(String.format("Json message achieved -> %s", stock));
     }
 
     @RabbitListener(queues = "${rabbitmq.queue.name}")
-    public void decreaseStock(HashMap<Long, Integer> totalIngredients){
-//        Long ingredientId = totalIngredients.keySet().iterator().next();
-//        Integer quantity = totalIngredients.get(ingredientId);
-//        RequestUpdateStock requestUpdateStock = new RequestUpdateStock();
-//        requestUpdateStock.setId(ingredientId);
-//        requestUpdateStock.setCount(quantity);
-//        updateStock(requestUpdateStock);
+    public void decreaseStock(HashMap<Long, Integer> totalIngredients) throws Exception {
+        final Boolean isCovered = checkStock(totalIngredients);
+        if (!isCovered){
+            throw new Exception("Not Enough Stock!!");
+        }
+        populateStock(totalIngredients);
         LOGGER.info(String.format("Json message achieved -> %s", totalIngredients));
         LOGGER.info(totalIngredients.toString());
         System.out.println(totalIngredients);
+    }
+
+    private void populateStock(HashMap<Long, Integer> totalIngredients) throws Exception {
+        for (Map.Entry<Long, Integer> ingredient : totalIngredients.entrySet()){
+            final ResponseStock stock = getStockById(ingredient.getKey());
+            final RequestUpdateStock updateStock = new RequestUpdateStock();
+            updateStock.setId(stock.getId());
+            updateStock.setCount(stock.getCount() - ingredient.getValue());
+            updateStock(updateStock);
+        }
+    }
+
+    private Boolean checkStock(HashMap<Long, Integer> totalIngredients) {
+        for (Map.Entry<Long, Integer> ingredient : totalIngredients.entrySet()){
+            final ResponseStock stock = getStockById(ingredient.getKey());
+            if(ingredient.getValue() > stock.getCount()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void deleteStock(Long id) {
