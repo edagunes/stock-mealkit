@@ -39,7 +39,7 @@ public class StockController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateStock(@RequestBody RequestUpdateStock requestUpdateStock){ // increment and decrement impl
+    public void updateStock(@RequestBody RequestUpdateStock requestUpdateStock) throws Exception { // increment and decrement impl
         stockService.updateStock(requestUpdateStock);
     }
 
