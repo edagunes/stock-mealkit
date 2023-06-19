@@ -51,11 +51,9 @@ public class StockService {
         stockRepository.save(stock);
     }
 
-    public void updateStock(RequestUpdateStock requestUpdateStock) throws Exception {
-        final ResponseStock responseStock = getStockById(requestUpdateStock.getId());
-        if (Objects.isNull(responseStock)){
-            throw new Exception("No Stock by Given Id");
-        }
+    public void updateStock(RequestUpdateStock requestUpdateStock){
+        getStockById(requestUpdateStock.getId());
+
         Stock stock = new Stock();
         stock.setId(requestUpdateStock.getId());
         stock.setCount(requestUpdateStock.getCount());
@@ -76,7 +74,7 @@ public class StockService {
         System.out.println(totalIngredients);
     }
 
-    private void populateStock(HashMap<Long, Integer> totalIngredients) throws Exception {
+    private void populateStock(HashMap<Long, Integer> totalIngredients){
         for (Map.Entry<Long, Integer> ingredient : totalIngredients.entrySet()){
             final ResponseStock stock = getStockById(ingredient.getKey());
             final RequestUpdateStock updateStock = new RequestUpdateStock();
