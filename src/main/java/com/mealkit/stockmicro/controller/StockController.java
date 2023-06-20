@@ -25,6 +25,12 @@ public class StockController {
         return ResponseEntity.ok(responseStockList);
     }
 
+    @PostMapping("/getAllStocks")
+    public ResponseEntity<List<ResponseStock>> getAllStocks(@RequestBody List<Long> ids){
+        List<ResponseStock> responseStockList = stockService.getAllStocksByIds(ids);
+        return ResponseEntity.ok(responseStockList);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseStock> getStockById(@PathVariable Long id){
         ResponseStock responseStock = stockService.getStockById(id);

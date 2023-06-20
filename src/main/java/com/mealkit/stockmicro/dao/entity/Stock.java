@@ -12,12 +12,13 @@ import lombok.*;
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    @Column
+    @Column(name = "ingredient_name")
     private String ingredientName;
-    @Column
+    @Column(name = "count")
     private Integer count;
-    @Column
+    @Column(name = "unit_of_measure")
     private String unitOfMeasure;
 
 }

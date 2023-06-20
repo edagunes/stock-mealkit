@@ -35,6 +35,11 @@ public class StockService {
         return StockMapper.INSTANCE.convertToResponseStockList(stockList);
     }
 
+    public List<ResponseStock> getAllStocksByIds(List<Long> ids){
+        List<Stock> stockList = stockRepository.findAllById(ids);
+        return StockMapper.INSTANCE.convertToResponseStockList(stockList);
+    }
+
     public ResponseStock getStockById(Long id) {
         Optional<Stock> stock = stockRepository.findById(id);
         if (stock.isPresent()){

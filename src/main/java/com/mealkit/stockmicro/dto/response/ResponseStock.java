@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseStock {
     private Long id;
+    private String ingredientName;
     private Integer count;
     private String unitOfMeasure;
-    private String ingredientName;
 }
