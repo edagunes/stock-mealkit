@@ -62,6 +62,8 @@ public class StockService {
         Stock stock = new Stock();
         stock.setId(requestUpdateStock.getId());
         stock.setCount(requestUpdateStock.getCount());
+        stock.setIngredientName(requestUpdateStock.getIngredientName());
+        stock.setUnitOfMeasure(requestUpdateStock.getUnitOfMeasure());
 
         stockRepository.save(stock);
         LOGGER.info(String.format("Json message achieved -> %s", stock));
@@ -85,6 +87,8 @@ public class StockService {
             final RequestUpdateStock updateStock = new RequestUpdateStock();
             updateStock.setId(stock.getId());
             updateStock.setCount(stock.getCount() - ingredient.getValue());
+            updateStock.setIngredientName(stock.getIngredientName());
+            updateStock.setUnitOfMeasure(stock.getUnitOfMeasure());
             updateStock(updateStock);
         }
     }
